@@ -3,7 +3,7 @@ public class Aluno{
     String matricula;
 
     public void apresenta(){
-        System.out.println("Olá! Meu nome é " + nome + " e minha matrícula é " + matricula + ".");
+        System.out.println("Ola! Meu nome eh " + nome + " e minha matricula eh " + matricula + ".");
     }
     public static void main(String args[]){
         Aluno aluno1 = new Aluno();

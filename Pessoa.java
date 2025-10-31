@@ -1,71 +1,94 @@
 import java.time.LocalDate;
 import java.time.Period;
 
-public class Pessoa{
+public class Pessoa {
+    private String nome, sobreNome;
+    private LocalDate dataNasc;
+    private long numCPF;
+    private float peso, altura;
 
-    public enum Genero{ MASCULINO, FEMININO, TRANS}
+    private static int totaldePessoas = 0;
 
-    private String nome, sobrenome;
-    private double altura, peso;
-    private Genero genero;
-    private LocalDate dataNascimento;
-    private static int pessoas = 0;
-
-    public Pessoa(String nome, String sobrenome, double altura, double peso, Genero genero, LocalDate dataNascimento){
-        this.nome = nome;
-        this.sobrenome = sobrenome;
-        this.altura = altura;
-        this.peso = peso;
-        this.genero = genero;
-        this.dataNascimento = dataNascimento;
-        pessoas++;
+    public Pessoa(String nome, String sobreNome, int dia, int mes, int ano){
+        this.setNome(nome);
+        this.setSobreNome(sobreNome);
+        this.setDataNasc(ano, mes, dia);
+        totaldePessoas++;
     }
-    public Pessoa(){    this(null, null, 0, 0, null, null);}
-    public Pessoa(String nome){    this(nome, null, 0, 0, null, null);}
+    public Pessoa(String nome, String sobreNome, int dia, int mes, int ano, long numCPF, float peso, float altura){ 
+        this(nome, sobreNome, dia, mes, ano);
+        this.setNumCPF(numCPF);
+        this.setPeso(peso);
+        this.setAltura(altura);
+    }
 
     public String getNome(){    return this.nome;}
-    public void setNome(String novoNome){   this.nome = novoNome;}
+    public void setNome(String nome){
+        if (nome == null || nome.trim().isEmpty()){  
+            System.out.println("Nome invalido (vazio ou nulo).");
+            return;    
+        }
+        if (nome.matches("\\d+")){
+            System.out.println("Nome invalido ('" + nome + "') - não pode ser apenas numeros");
+            return;
+        }
+        this.nome = nome.trim();
+    }
 
-    public String getSobrenome(){   return this.sobrenome;}
-    public void setSobrenome(String novoSobrenome){ this.sobrenome = novoSobrenome;}
+    public String getSobreNome(){  return this.sobreNome;}
+    public void setSobreNome(String sobreNome){
+        if (sobreNome == null || sobreNome.trim().isEmpty()){  
+            System.out.println("Sobrenome invalido (vazio ou nulo).");
+            return;    
+        }
+        if (sobreNome.matches("\\d+")){
+            System.out.println("Sobrenome invalido ('" + sobreNome + "') - não pode ser apenas numeros");
+            return;
+        }
+        this.sobreNome = sobreNome.trim();
+    }
 
-    public double getAltura(){  return this.altura;}
-    public void setAltura(double novaAltura){
-        if (novaAltura > 0.5 && novaAltura < 2.5)   this.altura = novaAltura;
-        else    System.out.println("Altura invalida.");}
-
-    public double getPeso(){    return this.peso;}
-    public void setPeso(double novoPeso){
-        if (novoPeso > 3 && novoPeso < 150) this.peso = novoPeso;
-        else    System.out.println("Peso invalido.");}
-    
-    public String getGenero(){
-        switch(this.genero){
-            case MASCULINO: return "Masculino";
-            case FEMININO:  return "Feminino";
-            case TRANS: return "Trans";
-            default: return "Não especificado";
+    public LocalDate getDataNasc(){   return this.dataNasc;}
+    public void setDataNasc(int ano, int mes, int dia){
+        if (ValidaData.isDataValida(dia, mes, ano)) this.dataNasc = LocalDate.of(ano, mes, dia);
+        else{
+            System.out.println("Data invalida (" + dia + "/" + mes + "/" + ano + ") Não foi alterada.");
+            this.dataNasc = null;
         }
     }
-    public void setGenero(Genero novoGenero){   this.genero = novoGenero;}
 
-    private int getIdade(){  return Period.between(this.dataNascimento, LocalDate.now()).getYears();}
-    public LocalDate getDataNascimento(){   return this.dataNascimento;}
-    public void setDataNascimento(LocalDate novaDataNascimento){    this.dataNascimento = novaDataNascimento;}
-
-    public static int getPessoas(){ return pessoas;}
-
-    public String toString(){   
-        return "Nome: "+nome+"\nSobrenome: "+sobrenome+"\nAltura: "+altura+"\nPeso: "+peso+"\nGenero: "+genero+"\nIdade: "+getIdade()+" anos\n";
+    public long getNumCPF(){    return this.numCPF;}
+    public void setNumCPF(long numCPF){
+        String cpfStr = String.format("%011d", numCPF);
+        if (ValidaCPF.isCPF(cpfStr))    this.numCPF = numCPF;
+        else System.out.println("CPF invalido. (" + numCPF + ") rejeitado.");
     }
 
-    public static void main(String args[]){
-        Pessoa pai = new Pessoa("Cristiano", "Ronaldo", 1.87, 83, Pessoa.Genero.MASCULINO, LocalDate.of(1985, 2, 5));
-        Pessoa mae = new Pessoa("Taylor", "Swift", 1.78, 63, Pessoa.Genero.FEMININO, LocalDate.of(1989, 12, 13));
+    public float getPeso(){    return this.peso;}
+    public void setPeso(float peso){
+        if (peso > 3 && peso < 150) this.peso = peso;
+        else    System.out.println("Peso invalido.");
+    }
 
-        System.out.println(pai.toString());
-        System.out.println(mae.toString());
-        System.out.println("----------------------------");
-        System.out.println("Total de pessoas criadas: " + Pessoa.getPessoas());
+    public float getAltura(){  return this.altura;}
+    public void setAltura(float altura){
+        if (altura > 0.3 && altura < 2.5)   this.altura = altura;
+        else    System.out.println("Altura invalida.");
+    }
+
+    public String toString(){
+        String cpfFormatado = (this.numCPF != 0) ? ValidaCPF.imprimeCPF(String.format("%011d", this.numCPF)) : "CPF nao informado.";
+        return "----------------------------------------\n" +
+               "Nome: " + (this.nome != null ? this.nome : "N/I") + " " +
+               (this.sobreNome != null ? this.sobreNome : "N/I") + "\n" +
+               "CPF: " + cpfFormatado + "\n" +
+               "Peso: " + this.peso + "kg | Altura: " + this.altura + "m\n";
+    }
+
+    public static int numPessoas(){ return totaldePessoas;}
+
+    public int getIdade(){
+        if (this.dataNasc == null)  return -1;
+        return Period.between(this.dataNasc, LocalDate.now()).getYears();
     }
 }
