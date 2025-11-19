@@ -1,3 +1,5 @@
+package P1n;
+
 import java.util.Scanner;
 
 public class P1nX{
@@ -20,15 +22,15 @@ public class P1nX{
             String alturaStr = args[8];
 
             if (!generoStr.equalsIgnoreCase("M") && !generoStr.equalsIgnoreCase("F")){
-                System.out.println("Erro: Gênero inválido. Use 'M' para Masculino ou 'F' para Feminino.");
+                System.out.println("Erro: Genero inválido. Use 'M' para Masculino ou 'F' para Feminino.");
                 return;
             }
             if (!ValidaData.isDataValida(diaStr, mesStr, anoStr)){
-                System.out.println("Erro: Data de nascimento inválida (" + diaStr + "/" + mesStr + "/" + anoStr + ").");
+                System.out.println("Erro: Data de nascimento invalida (" + diaStr + "/" + mesStr + "/" + anoStr + ").");
                 return;
             }
             if (!ValidaCPF.isCPF(cpfStr)){
-                System.out.println("Erro: CPF inválido (" + cpfStr + ").");
+                System.out.println("Erro: CPF invalido (" + cpfStr + ").");
                 return;
             }
 
@@ -47,7 +49,7 @@ public class P1nX{
             System.out.println(p1.toString());
 
         } catch (NumberFormatException e){
-            System.out.println("ERRO: Um dos argumentos numéricos (dia, mes, ano, cpf, peso, altura) não é um número válido.");
+            System.out.println("ERRO: Um dos argumentos numericos (dia, mes, ano, cpf, peso, altura) não eh um número valido.");
             System.out.println("Detalhe do erro: " + e.getMessage());
             return;
         }
@@ -55,20 +57,20 @@ public class P1nX{
         int numAdicionais = 0;
 
         while (true){
-            System.out.print("\nQuantos elementos ADICIONAIS você quer criar no array? ");
+            System.out.print("\nQuantos elementos ADICIONAIS voce quer criar no array? ");
             try {
                 numAdicionais = teclado.nextInt();
                 teclado.nextLine();
-                if (numAdicionais < 0)  System.out.println("Erro: O número não pode ser negativo.");
+                if (numAdicionais < 0)  System.out.println("Erro: O numero não pode ser negativo.");
                 else    break;
             } catch (Exception e){
-                System.out.println("Erro: Isso não é um número válido. Tente novamente.");
+                System.out.println("Erro: Isso não eh um número valido. Tente novamente.");
                 teclado.nextLine();
             }
         }
         Pessoa[] pessoas = new Pessoa[numAdicionais];
 
-        System.out.println("Array 'pessoas' criado com " + numAdicionais + " posições.");
+        System.out.println("Array 'pessoas' criado com " + numAdicionais + " posicoes.");
 
         System.out.println("\nIniciando cadastro de " + numAdicionais + " pessoa(s)...");
         int pessoasCriadas = 0;
@@ -79,7 +81,7 @@ public class P1nX{
 
             String generoStr;
             while (true) {
-                System.out.print("Digite o Gênero (M/F) ou [ENTER] para parar: ");
+                System.out.print("Digite o Genero (M/F) ou [ENTER] para parar: ");
                 generoStr = teclado.nextLine();
 
                 if (generoStr.isEmpty()) break; // 
@@ -121,7 +123,7 @@ public class P1nX{
                     ano = Integer.parseInt(teclado.nextLine());
 
                     if (!ValidaData.isMes(mesStr)) {
-                         System.out.println("Erro: Mes inválido ('" + mesStr + "'). Tente novamente.");
+                         System.out.println("Erro: Mes invalido ('" + mesStr + "'). Tente novamente.");
                          continue;
                     }
 
@@ -137,7 +139,7 @@ public class P1nX{
 
             long cpf;
             while (true){
-                System.out.print("Digite o CPF (apenas números): ");
+                System.out.print("Digite o CPF (apenas numeros): ");
                 String cpfStr = teclado.nextLine().trim();
                 if (ValidaCPF.isCPF(cpfStr)){
                     try{
@@ -171,7 +173,7 @@ public class P1nX{
                     if (altura > 0.5 && altura < 2.5)   break; // Altura válida, sai do loop
                     else    System.out.println("Erro: Altura invalida (deve ser entre 0.5 e 2.5 m). Tente novamente.");
                 } catch (NumberFormatException e){
-                    System.out.println("Erro: Entrada invalida. Digite apenas números (ex: 1.75).");
+                    System.out.println("Erro: Entrada invalida. Digite apenas numeros (ex: 1.75).");
                 }
             }
             
@@ -204,7 +206,7 @@ public class P1nX{
         System.out.println("Total de Mulheres: " + contMulheres);
         System.out.println("----------------------------------------");
         System.out.println("Contagem TOTAL de objetos (Pessoa + Homem + Mulher) criados:");
-        System.out.println("Total de instâncias (via Pessoa.numPessoas()): " + Pessoa.numPessoas());
+        System.out.println("Total de instancias (via Pessoa.numPessoas()): " + Pessoa.numPessoas());
         System.out.println("========================================");
 
         teclado.close();

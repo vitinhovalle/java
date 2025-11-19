@@ -1,3 +1,5 @@
+package P2n;
+
 import java.time.LocalDate;
 
 public class ValidaData{
@@ -55,7 +57,7 @@ public class ValidaData{
     }
 
     public static boolean isDataValida(int dia, int mes, int ano){
-        if (!isAno(ano) || !isMes(mes) || !isDia(dia))  return false;
+        if (!isDia(dia) || !isMes(mes) || !isAno(ano))  return false;
         try {
             LocalDate.of(ano, mes, dia);
             return true;
@@ -74,7 +76,6 @@ public class ValidaData{
 
         } catch (Exception e) { return false;}
     }
-
 
     public static void main(String[] args){
         int anoAtual = LocalDate.now().getYear();
